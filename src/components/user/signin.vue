@@ -55,6 +55,10 @@ import { Field, Form } from "vee-validate";
 import * as yup from "yup";
 import { ref } from "vue";
 
+// Auth Store
+import { useUserStore } from "@/stores/user";
+const userStore = useUserStore();
+
 const type = ref(false);
 const formSchema = yup.object({
   email: yup

@@ -1,8 +1,7 @@
-import { initializeApp } from "firebase";
-import { fireStore, getFirestore } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDZGNCAffFBs-fCoAFpVVI8HbsWMxRFKFI",
   authDomain: "gamesource-64f12.firebaseapp.com",
