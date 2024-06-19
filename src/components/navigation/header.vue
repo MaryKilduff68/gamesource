@@ -16,7 +16,7 @@
 							<span> Logout </span>
 						</li>
 						<li>
-							<router-link :to="{ name: 'dashboard' }">
+							<router-link to="/dashboard">
 								Dashboard
 							</router-link>
 						</li>
