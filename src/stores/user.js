@@ -24,6 +24,39 @@ export const useUserStore = defineStore("user", {
   }),
   getters: {},
   actions: {
-    async register(formData) {},
+    setUser(user) {
+      this.user = { ...this.user, ...user };
+      this.auth = true;
+    },
+
+    async register(formData) {
+      try {
+        this.loading = true;
+
+        /// Register User
+        const response = await createUserWithEmailAndPassword(
+          AUTH,
+          formData.email,
+          formData.password
+        );
+        // Add user to DB
+        const newUser = {
+          uid: response.user.uid,
+          email: response.user.email,
+          isAdmin: false,
+        };
+        await setDoc(doc(DB, "users", response.user.uid), newUser);
+
+        // Update local state
+        this.setUser(newUser);
+
+        // Redirect User
+        router.push({ name: "dashboard" });
+      } catch (error) {
+        throw new Error(error.code);
+      } finally {
+        this.loading = false;
+      }
+    },
   },
 });
