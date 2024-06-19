@@ -61,9 +61,15 @@
 import { Field, Form } from "vee-validate";
 import * as yup from "yup";
 import { ref } from "vue";
+import { useToast } from "vue-toast-notification";
+import { useUserStore } from "@/stores/user";
+import { Toast } from "bootstrap";
+
+// Toasts
+const $toast = useToast();
 
 // Auth Store
-import { useUserStore } from "@/stores/user";
+
 const userStore = useUserStore();
 
 const type = ref(false);
@@ -84,4 +90,15 @@ function onSubmit(values, { resetForm }) {
     userStore.signIn(values);
   }
 }
+
+userStore.$onAction(({ name, after, onError }) => {
+  if (name === "register" || name === "signIn") {
+    after(() => {
+      $toast.success("Welcome!!");
+    });
+    onError((error) => {
+      $toast.error(error.message);
+    });
+  }
+});
 </script>
