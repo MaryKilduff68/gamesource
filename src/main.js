@@ -9,10 +9,10 @@ import "vuetify/styles";
 import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
-
 import { createApp } from "vue";
 import { createPinia } from "pinia";
-
+import { AUTH } from "@/utils/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import App from "./App.vue";
 import router from "./router";
 
@@ -23,11 +23,16 @@ const vuetify = createVuetify({
   directives,
 });
 
-const app = createApp(App);
+let app;
 
-app.use(createPinia());
-app.use(router);
-app.use(vuetify);
-app.use(ToastPlugin);
+onAuthStateChanged(AUTH, () => {
+  if (!app) {
+    app = createApp(App);
+    app.use(createPinia());
+    app.use(router);
+    app.use(vuetify);
+    app.use(ToastPlugin);
 
-app.mount("#app");
+    app.mount("#app");
+  }
+});
