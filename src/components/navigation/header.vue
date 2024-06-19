@@ -16,7 +16,7 @@
 							<span> Logout </span>
 						</li>
 						<li>
-							<router-link to="/dashboard">
+							<router-link to="/dashboard" v-if="userStore.auth">
 								Dashboard
 							</router-link>
 						</li>
