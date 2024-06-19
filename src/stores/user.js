@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 import router from "@/router";
+
+/// FIREBASE
 import { AUTH, DB } from "@/utils/firebase";
 import {
   createUserWithEmailAndPassword,
@@ -28,18 +30,53 @@ export const useUserStore = defineStore("user", {
       this.user = { ...this.user, ...user };
       this.auth = true;
     },
+    async getUserProfile(uid) {
+      try {
+        const userRef = await getDoc(doc(DB, "users", uid));
+        if (!userRef.exists()) {
+          throw new Error("Could not find user !!");
+        }
+        return userRef.data();
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    async signIn(formData) {
+      try {
+        this.loading = true;
 
+        /// SIGN IN USER
+        const response = await signInWithEmailAndPassword(
+          AUTH,
+          formData.email,
+          formData.password
+        );
+        /// GET USER DATA
+        const userData = await this.getUserProfile(response.user.uid);
+
+        /// UPDATE LOCAL STATE
+        this.setUser(userData);
+
+        // REDIRECT USER
+        router.push({ name: "dashboard" });
+      } catch (error) {
+        throw new Error(error.code);
+      } finally {
+        this.loading = false;
+      }
+    },
     async register(formData) {
       try {
         this.loading = true;
 
-        /// Register User
+        /// REGISTER USER
         const response = await createUserWithEmailAndPassword(
           AUTH,
           formData.email,
           formData.password
         );
-        // Add user to DB
+
+        // ADD USER TO DB
         const newUser = {
           uid: response.user.uid,
           email: response.user.email,
@@ -47,10 +84,10 @@ export const useUserStore = defineStore("user", {
         };
         await setDoc(doc(DB, "users", response.user.uid), newUser);
 
-        // Update local state
+        /// UPDATE LOCAL STATE
         this.setUser(newUser);
 
-        // Redirect User
+        // REDIRECT USER
         router.push({ name: "dashboard" });
       } catch (error) {
         throw new Error(error.code);

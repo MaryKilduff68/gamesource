@@ -81,6 +81,7 @@ function onSubmit(values, { resetForm }) {
     userStore.register(values);
   } else {
     // sign in
+    userStore.signIn(values);
   }
 }
 </script>
