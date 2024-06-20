@@ -9,6 +9,7 @@ import AdminArticles from "@/components/dashboard/admin/articles.vue";
 import AdminAddArticle from "@/components/dashboard/admin/add_articles.vue";
 import AdminEditArticle from "@/components/dashboard/admin/edit_articles.vue";
 import { isAuth, isLoggedIn } from "@/composables/auth";
+import NotFound from "@/components/404.vue";
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -49,6 +50,7 @@ const router = createRouter({
 				},
 			],
 		},
+		{ path: "/:notFound(.*)*", component: NotFound, name: "404" },
 	],
 });
 export default router;
