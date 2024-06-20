@@ -50,6 +50,8 @@
 	import StarterKit from "@tiptap/starter-kit";
 
 	const emit = defineEmits(["update"]);
+	const props = defineProps(["content"]); //edit
+
 	const editor = new Editor({
 		content: "",
 		extensions: [StarterKit],
@@ -57,4 +59,12 @@
 			emit("update", editor.getHTML());
 		},
 	});
+
+	function loadContent() {
+		if (props.content) {
+			editor.commands.setContent(props.content);
+		}
+	}
+
+	loadContent();
 </script>
