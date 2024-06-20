@@ -20,10 +20,7 @@ const ArticleSchema = {
 		.string()
 		.required("The rating  is required")
 		.notOneOf(["Select a rating"], "You need to select a rating"),
-	img: yup
-		.string()
-		.required("The image  is required")
-		.url("Is this a valid url ?"),
+	img: yup.string().url("Is this a valid url ?"),
 };
 
 export default ArticleSchema;

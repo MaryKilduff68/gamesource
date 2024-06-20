@@ -167,12 +167,10 @@
 	const article = ref({});
 
 	function onSubmit(values, { resetForm }) {
-		console.log(values);
-		// loading.value = true;
-		// articleStore.updateArticle(route.params.id,values)
-		// .finally(()=>{
-		//     loading.value = false;
-		// })
+		loading.value = true;
+		articleStore.updateArticle(route.params.id, values).finally(() => {
+			loading.value = false;
+		});
 	}
 
 	function updateEditor(value) {
