@@ -1,17 +1,15 @@
 <template>
-	<h1>Add article</h1>
+	<h1>Edit article</h1>
 	<hr />
 
-	<div class="text-center m-3" v-show="loading">
-		<v-progress-circular indeterminate color="primary" />
-	</div>
+	<!-- <div class="text-center m-3" v-show="loading">
+        <v-progress-circular
+            indeterminate
+            color="primary"
+        />
+    </div> -->
 
-	<Form
-		class="mb-5"
-		@submit="onSubmit"
-		:validation-schema="ArticleSchema"
-		v-show="!loading"
-	>
+	<Form class="mb-5" @submit="onSubmit" :validation-schema="ArticleSchema">
 		<!-- 1-Name of the game -->
 		<div class="mb-4">
 			<Field
@@ -136,7 +134,14 @@
 			</Field>
 		</div>
 
-		<v-btn type="submit" variant="outlined"> Add article </v-btn>
+		<v-btn
+			type="submit"
+			variant="outlined"
+			:disabled="loading"
+			:loading="loading"
+		>
+			Edit article
+		</v-btn>
 	</Form>
 </template>
 
@@ -145,7 +150,7 @@
 	import { Field, Form } from "vee-validate";
 	import ArticleSchema from "./schema";
 	/// WYSIWYG
-	import WYSIWYG from "@/utils/whatyousee.vue";
+	import WYSIWYG from "@/utils/wysiwyg.vue";
 	// ARTICLE STORE
 	import { useArticleStore } from "@/stores/articles";
 	const articleStore = useArticleStore();
@@ -161,7 +166,14 @@
 	const veditor = ref("");
 	const article = ref({});
 
-	function onSubmit(values, { resetForm }) {}
+	function onSubmit(values, { resetForm }) {
+		console.log(values);
+		// loading.value = true;
+		// articleStore.updateArticle(route.params.id,values)
+		// .finally(()=>{
+		//     loading.value = false;
+		// })
+	}
 
 	function updateEditor(value) {
 		veditor.value = value;
@@ -172,6 +184,7 @@
 		.getArticleById(route.params.id)
 		.then((response) => {
 			article.value = { ...response };
+			updateEditor(response.editor);
 			loading.value = false;
 		})
 		.catch((error) => {

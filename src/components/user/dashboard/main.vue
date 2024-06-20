@@ -1,3 +1,3 @@
 <template>
-    HOME
+    dashboard
 </template>
