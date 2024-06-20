@@ -46,12 +46,12 @@
 </template>
 
 <script setup>
+	import { watch } from "vue";
 	import { Editor, EditorContent } from "@tiptap/vue-3";
 	import StarterKit from "@tiptap/starter-kit";
 
 	const emit = defineEmits(["update"]);
-	const props = defineProps(["content"]); //edit
-
+	const props = defineProps(["content"]); /// edit
 	const editor = new Editor({
 		content: "",
 		extensions: [StarterKit],
@@ -59,6 +59,13 @@
 			emit("update", editor.getHTML());
 		},
 	});
+
+	watch(
+		() => props.content,
+		() => {
+			loadContent();
+		}
+	);
 
 	function loadContent() {
 		if (props.content) {
