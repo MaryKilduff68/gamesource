@@ -46,7 +46,16 @@
 			</Field>
 		</div>
 
-		<WhatYouSeeIsWhatYouGet />
+		<div class="mb-4">
+			<WhatYouSeeIsWhatYouGet @update="updateEditor" />
+			<Field
+				name="editor"
+				v-model="veditor"
+				v-slot="{ field, errors, errorMessage }"
+			>
+				<input type="hidden" id="veditor" v-bind="field" />
+			</Field>
+		</div>
 
 		<div class="mb-4">
 			<Field
@@ -100,8 +109,13 @@
 	import WhatYouSeeIsWhatYouGet from "@/utils/whatyousee.vue";
 
 	const ratingArray = [0, 1, 2, 3, 4, 5];
+	const veditor = ref("");
 
 	function onSubmit(values, { resetForm }) {
 		console.log(values);
+	}
+
+	function updateEditor(value) {
+		veditor.value = value;
 	}
 </script>

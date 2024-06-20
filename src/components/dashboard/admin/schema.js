@@ -12,10 +12,10 @@ const ArticleSchema = {
 		.required("Summary is required")
 		.min(50, "Must be at least 100 characters")
 		.max(500, "No more than 500 characters"),
-	// editor: yup
-	// 	.string()
-	// 	.required("Summary is required")
-	// 	.min(100, "Must be at least 100 characters"),
+	editor: yup
+		.string()
+		.required("Summary is required")
+		.min(100, "Must be at least 100 characters"),
 	rating: yup
 		.string()
 		.required("The rating is required")
