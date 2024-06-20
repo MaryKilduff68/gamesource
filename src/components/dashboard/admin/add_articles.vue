@@ -1,7 +1,7 @@
 <template>
 	<h1>Add Article</h1>
 	<hr />
-	<Form class="mb-5" @onSubmit="onSubmit">
+	<Form class="mb-5" @submit="onSubmit" :validationSchema="ArticleSchema">
 		<div class="mb-4">
 			<Field name="game" v-slot="{ field, errors, errorMessage }">
 				<input
@@ -45,6 +45,8 @@
 				</div>
 			</Field>
 		</div>
+
+		<WhatYouSeeIsWhatYouGet />
 
 		<div class="mb-4">
 			<Field
@@ -94,10 +96,12 @@
 <script setup>
 	import { ref } from "vue";
 	import { Field, Form } from "vee-validate";
+	import ArticleSchema from "./schema";
+	import WhatYouSeeIsWhatYouGet from "@/utils/whatyousee.vue";
 
 	const ratingArray = [0, 1, 2, 3, 4, 5];
 
-	function submit(values, { resetForm }) {
+	function onSubmit(values, { resetForm }) {
 		console.log(values);
 	}
 </script>
