@@ -2,9 +2,9 @@ import { createRouter, createWebHistory } from "vue-router";
 import { isAuth, isLoggedIn } from "@/composables/auth";
 
 import Home from "@/components/home/index.vue";
-import Signin from "@/components/user/signin.vue";
+import SignIn from "@/components/user/signin.vue";
 import NotFound from "@/components/404.vue";
-
+import Register from "@/components/user/register.vue";
 import Dashboard from "@/components/user/dashboard/index.vue";
 import DashboardMain from "@/components/user/dashboard/main.vue";
 import UserProfile from "@/components/user/dashboard/pages/user_profile.vue";
@@ -18,11 +18,15 @@ const router = createRouter({
 	routes: [
 		{ path: "/", name: "home", component: Home },
 		{ path: "/article/:id", component: Article, name: "article" },
-
+		{
+			path: "/register",
+			name: "register",
+			component: Register,
+		},
 		{
 			path: "/signin",
 			name: "signin",
-			component: Signin,
+			component: SignIn,
 			beforeEnter: isLoggedIn,
 		},
 		{

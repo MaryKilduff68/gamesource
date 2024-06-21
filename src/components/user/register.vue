@@ -9,7 +9,40 @@
 			:validation-schema="formSchema"
 			v-show="!userStore.loading"
 		>
-			<h1 v-text="'Sign In'" />
+			<h1 v-text="'Register'"></h1>
+
+			<div class="form-group">
+				<Field
+					name="firstname"
+					v-slot="{ field, errors, errorMessage }"
+				>
+					<input
+						type="text"
+						class="form-control"
+						placeholder="Enter your first name"
+						v-bind="field"
+						:class="{ 'is-invalid': errors.length !== 0 }"
+					/>
+					<div class="input_alert" v-if="errors.length !== 0">
+						{{ errorMessage }}
+					</div>
+				</Field>
+			</div>
+
+			<div class="form-group">
+				<Field name="lastname" v-slot="{ field, errors, errorMessage }">
+					<input
+						type="text"
+						class="form-control"
+						placeholder="Enter your last name"
+						v-bind="field"
+						:class="{ 'is-invalid': errors.length !== 0 }"
+					/>
+					<div class="input_alert" v-if="errors.length !== 0">
+						{{ errorMessage }}
+					</div>
+				</Field>
+			</div>
 
 			<div class="form-group">
 				<Field name="email" v-slot="{ field, errors, errorMessage }">
@@ -44,7 +77,7 @@
 			<button
 				type="submit"
 				class="btn mb-3 btn-block"
-				v-text="'Sign In'"
+				v-text="'Register'"
 			></button>
 
 			<hr />
@@ -52,11 +85,11 @@
 				class="form_swap"
 				@click="
 					router.push({
-						name: 'register',
+						name: 'signin',
 					})
 				"
 			>
-				<span> I want to <b>Register</b> </span>
+				<span> I want to <b>Sign in</b> </span>
 			</div>
 		</Form>
 	</div>
@@ -69,12 +102,14 @@
 	import { useRouter } from "vue-router";
 	import { useToast } from "vue-toast-notification";
 	import { useUserStore } from "@/stores/user";
-
 	const userStore = useUserStore();
 	const $toast = useToast();
 	const router = useRouter();
 
 	const formSchema = yup.object({
+		firstname: yup.string().required("First name is required"),
+		lastname: yup.string().required("Last name is required"),
+
 		email: yup
 			.string()
 			.required("The email is required")
@@ -83,13 +118,12 @@
 	});
 
 	function onSubmit(values, { resetForm }) {
-		// sign in
-		userStore.signIn(values);
+		userStore.register(values);
 	}
 
 	// subscribe to error
 	userStore.$onAction(({ name, after, onError }) => {
-		if (name === "register" || name === "signIn") {
+		if (name === "register") {
 			after(() => {
 				$toast.success("Welcome !!");
 			});
