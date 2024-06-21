@@ -10,8 +10,12 @@ export const firstLoad = () => {
 	const loading = ref(true);
 
 	onAuthStateChanged(AUTH, async (user) => {
-		if (user) {
-			await userStore.autosignin(user.uid);
+		try {
+			if (user) {
+				await userStore.autosignin(user.uid);
+			}
+		} catch (error) {
+			userStore.deleteUser();
 		}
 
 		loading.value = false;
