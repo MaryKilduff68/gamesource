@@ -133,5 +133,19 @@ export const useArticleStore = defineStore("article", {
 				throw new Error(error);
 			}
 		},
+		async removeArticleById(articleId) {
+			try {
+				await deleteDoc(doc(DB, "articles", articleId));
+				const newList = this.adminArticles.filter((x) => {
+					return x.id != articleId;
+				});
+				this.adminArticles = newList;
+
+				$toast.success("Removed Article");
+			} catch (error) {
+				$toast.error(error.message);
+				throw new Error(error);
+			}
+		},
 	},
 });

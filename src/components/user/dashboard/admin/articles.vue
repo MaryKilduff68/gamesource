@@ -22,7 +22,12 @@
 					<td>{{ article.rating }}</td>
 					<td>{{ article.timestamp.toDate().toDateString() }}</td>
 					<td>
-						<v-btn variant="outlined" color="red" size="small">
+						<v-btn
+							variant="outlined"
+							color="red"
+							size="small"
+							@click="removeHandler(article.id)"
+						>
 							Remove
 						</v-btn>
 					</td>
@@ -71,6 +76,14 @@
 
 	const loading = ref(false);
 	const btnLoad = ref(false);
+
+	/// Remove article
+	const removeHandler = (articleId) => {
+		loading.value = true;
+		articleStore.removeArticleById(articleId).finally(() => {
+			loading.value = false;
+		});
+	};
 
 	/// LOAD MORE ARTICLES
 	const loadMoreArticlesHandler = () => {
