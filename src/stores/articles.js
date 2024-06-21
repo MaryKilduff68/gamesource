@@ -29,7 +29,10 @@ export const useArticleStore = defineStore("article", {
 		adminLastVisible: "",
 	}),
 	getters: {
-		getFeaturesSlides(state) {
+		getHomeArticles(state) {
+			return state.homeArticles;
+		},
+		getFeaturedSlides(state) {
 			return state.homeArticles.slice(0, 2);
 		},
 	},

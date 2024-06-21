@@ -1,8 +1,8 @@
 <template>
-	<div v-if="articleStore.getFeaturesSlides">
+	<div v-if="articleStore.getFeaturedSlides">
 		<carousel :items-to-show="1" :wrap-around="true" class="p_top">
 			<slide
-				v-for="slide in articleStore.getFeaturesSlides"
+				v-for="slide in articleStore.getFeaturedSlides"
 				:key="slide.id"
 			>
 				<div
