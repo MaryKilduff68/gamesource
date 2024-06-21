@@ -44,6 +44,18 @@
 				</tr>
 			</tbody>
 		</v-table>
+
+		<div class="text-center m-3" v-if="btnLoad">
+			<v-progress-circular indeterminate color="primary" />
+		</div>
+		<v-btn
+			v-else
+			variant="outlined"
+			class="mt-3"
+			@click="loadMoreArticlesHandler()"
+		>
+			Get More Articles
+		</v-btn>
 	</div>
 </template>
 
@@ -61,6 +73,10 @@
 	const btnLoad = ref(false);
 
 	/// LOAD MORE ARTICLES
+	const loadMoreArticlesHandler = () => {
+		btnLoad.value = true;
+		articleStore.adminGetMoreArticles(3).finally((btnLoad.value = false));
+	};
 
 	//// GET FIRST ARTICLES
 	if (!articleStore.adminArticles || route.query.reload) {
