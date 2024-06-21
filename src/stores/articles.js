@@ -28,7 +28,11 @@ export const useArticleStore = defineStore("article", {
 		adminArticles: "",
 		adminLastVisible: "",
 	}),
-	getters: {},
+	getters: {
+		getFeaturesSlides(state) {
+			return state.homeArticles.slice(0, 2);
+		},
+	},
 	actions: {
 		async updateArticle(id, formData) {
 			try {
@@ -144,6 +148,23 @@ export const useArticleStore = defineStore("article", {
 				$toast.success("Removed Article");
 			} catch (error) {
 				$toast.error(error.message);
+				throw new Error(error);
+			}
+		},
+		async getArticles(docsLimit) {
+			try {
+				const q = query(
+					articlesCol,
+					orderBy("timestamp", "desc"),
+					limit(docsLimit)
+				);
+				const querySnapshot = await getDocs(q);
+				const articles = querySnapshot.docs.map((doc) => ({
+					id: doc.id,
+					...doc.data(),
+				}));
+				this.homeArticles = articles;
+			} catch (error) {
 				throw new Error(error);
 			}
 		},
