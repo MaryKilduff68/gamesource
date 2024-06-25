@@ -73,6 +73,7 @@ export const useUserStore = defineStore("user", {
 				return true;
 			} catch (error) {
 				console.log(error);
+				this.setUser(DEFAULT_USER);
 			}
 		},
 		async getUserProfile(uid) {
@@ -83,6 +84,8 @@ export const useUserStore = defineStore("user", {
 				}
 				return userRef.data();
 			} catch (error) {
+				this.setUser(DEFAULT_USER);
+
 				throw new Error(error);
 			}
 		},
